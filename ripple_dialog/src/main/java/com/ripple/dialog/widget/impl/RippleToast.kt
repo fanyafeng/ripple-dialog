@@ -28,17 +28,28 @@ object RippleToast {
      */
     @JvmStatic
     @JvmOverloads
-    fun show(context: Context, charSequence: CharSequence = "", view: View? = null, duration: Int = Toast.LENGTH_SHORT, gravity: Int = GRAVITY_DEFAULT, xOffset: Int = 0, yOffset: Int = 0) {
-        toast?.cancel()
-        checkNotNullRipple(charSequence, "charSequence is null")
-        toast = Toast.makeText(context, charSequence, duration)
-        if (gravity != GRAVITY_DEFAULT) {
-            toast!!.setGravity(gravity, xOffset, yOffset)
+    fun show(
+        context: Context?,
+        charSequence: CharSequence = "",
+        view: View? = null,
+        duration: Int = Toast.LENGTH_SHORT,
+        gravity: Int = GRAVITY_DEFAULT,
+        xOffset: Int = 0,
+        yOffset: Int = 0
+    ) {
+        context?.let {
+            toast?.cancel()
+            toast = Toast.makeText(context, charSequence, duration)
+            if (gravity != GRAVITY_DEFAULT) {
+                toast?.setGravity(gravity, xOffset, yOffset)
+            }
+            if (view != null) {
+                toast?.view = view
+            }
+            if (!charSequence.isNullOrEmpty()) {
+                toast?.show()
+            }
         }
-        if (view != null) {
-            toast!!.view = view
-        }
-        toast!!.show()
     }
 
     @JvmStatic
